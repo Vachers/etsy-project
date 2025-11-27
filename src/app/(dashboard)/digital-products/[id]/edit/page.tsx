@@ -55,7 +55,7 @@ export default function EditDigitalProductPage() {
           tags: [],
           listings: product.listings?.map(l => ({
             platformId: l.platform.id,
-            salesAccountId: null,
+            salesAccountId: undefined,
             price: l.price,
             currency: l.currency,
             productUrl: l.productUrl || "",
