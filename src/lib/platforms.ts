@@ -30,6 +30,7 @@ export interface MockupSource {
   id: string;
   name: string;
   url: string;
+  color: string;
 }
 
 export const aiPlatforms: AIPlatform[] = [
@@ -49,9 +50,9 @@ export const mockupCategories: MockupCategory[] = [
 ];
 
 export const mockupSources: MockupSource[] = [
-  { id: "placeit", name: "Placeit", url: "https://placeit.net" },
-  { id: "smartmockups", name: "Smartmockups", url: "https://smartmockups.com" },
-  { id: "mockupworld", name: "Mockup World", url: "https://mockupworld.co" },
+  { id: "placeit", name: "Placeit", url: "https://placeit.net", color: "#e53e3e" },
+  { id: "smartmockups", name: "Smartmockups", url: "https://smartmockups.com", color: "#3182ce" },
+  { id: "mockupworld", name: "Mockup World", url: "https://mockupworld.co", color: "#38a169" },
 ];
 
 export const salesPlatforms: SalesPlatformData[] = [
