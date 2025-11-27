@@ -4,11 +4,13 @@ import { prisma } from "@/lib/prisma";
 // Tek satış hesabını getir
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+    
     const account = await prisma.salesAccount.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         platform: true,
         listings: {
@@ -39,28 +41,29 @@ export async function GET(
 // Satış hesabını güncelle
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { name, shopName, shopUrl, username, email, isDefault, isActive, notes } = body;
 
     // Eğer isDefault true ise, aynı platformdaki diğer hesapların isDefault'ını false yap
     if (isDefault) {
       const currentAccount = await prisma.salesAccount.findUnique({
-        where: { id: params.id },
+        where: { id },
       });
 
       if (currentAccount) {
         await prisma.salesAccount.updateMany({
-          where: { platformId: currentAccount.platformId, isDefault: true, id: { not: params.id } },
+          where: { platformId: currentAccount.platformId, isDefault: true, id: { not: id } },
           data: { isDefault: false },
         });
       }
     }
 
     const account = await prisma.salesAccount.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         shopName,
@@ -89,11 +92,13 @@ export async function PUT(
 // Satış hesabını sil
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+    
     await prisma.salesAccount.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true, message: "Satış hesabı silindi" });
@@ -105,5 +110,3 @@ export async function DELETE(
     );
   }
 }
-
-
