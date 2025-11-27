@@ -22,6 +22,7 @@ export interface AIPlatform {
 export interface MockupCategory {
   id: string;
   name: string;
+  icon: string;
 }
 
 export interface MockupSource {
@@ -39,11 +40,11 @@ export const aiPlatforms: AIPlatform[] = [
 ];
 
 export const mockupCategories: MockupCategory[] = [
-  { id: "tshirt", name: "T-Shirt" },
-  { id: "mug", name: "Kupa" },
-  { id: "poster", name: "Poster" },
-  { id: "phone-case", name: "Telefon Kılıfı" },
-  { id: "pillow", name: "Yastık" },
+  { id: "tshirt", name: "T-Shirt", icon: "👕" },
+  { id: "mug", name: "Kupa", icon: "☕" },
+  { id: "poster", name: "Poster", icon: "🖼️" },
+  { id: "phone-case", name: "Telefon Kılıfı", icon: "📱" },
+  { id: "pillow", name: "Yastık", icon: "🛋️" },
 ];
 
 export const mockupSources: MockupSource[] = [
