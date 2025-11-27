@@ -384,7 +384,18 @@ export default function PlatformsPage() {
           setFormOpen(open);
           if (!open) setEditingPlatform(null);
         }}
-        platform={editingPlatform}
+        platform={editingPlatform ? {
+          id: editingPlatform.id,
+          name: editingPlatform.name,
+          slug: editingPlatform.slug,
+          logo: editingPlatform.logo || "",
+          websiteUrl: editingPlatform.websiteUrl || "",
+          commissionRate: editingPlatform.commissionRate,
+          defaultCurrency: editingPlatform.defaultCurrency,
+          color: editingPlatform.color,
+          description: editingPlatform.description || "",
+          isActive: editingPlatform.isActive,
+        } : null}
         onSuccess={fetchPlatforms}
       />
 
