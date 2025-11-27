@@ -3,13 +3,12 @@
 // ========================================
 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { pusherServer } from "@/lib/pusher";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     
     if (!session?.user) {
       return NextResponse.json(
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     // For private channels, verify user has access
     if (channel_name.startsWith("private-project-")) {
-      const projectId = channel_name.replace("private-project-", "");
+      // const projectId = channel_name.replace("private-project-", "");
       
       // TODO: Check if user is a member of this project
       // const isMember = await checkProjectMembership(session.user.id, projectId);
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Authorize the user for the channel
-    const auth = pusherServer.authorizeChannel(socket_id, channel_name, {
+    const authResponse = pusherServer.authorizeChannel(socket_id, channel_name, {
       user_id: session.user.id || session.user.email || "anonymous",
       user_info: {
         name: session.user.name,
@@ -51,7 +50,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(auth);
+    return NextResponse.json(authResponse);
   } catch (error) {
     console.error("Pusher auth error:", error);
     return NextResponse.json(
@@ -60,5 +59,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-

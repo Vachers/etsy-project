@@ -3,15 +3,14 @@
 // ========================================
 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { pusherServer, getProjectChannel, PUSHER_EVENTS, PusherMessage } from "@/lib/pusher";
+import { getProjectChannel, PUSHER_EVENTS, PusherMessage, pusherServer } from "@/lib/pusher";
 
 // GET /api/messages?projectId=xxx - Get messages for a project
 export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     
     if (!session?.user) {
       return NextResponse.json(
@@ -71,7 +70,7 @@ export async function GET(req: NextRequest) {
 // POST /api/messages - Send a new message
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     
     if (!session?.user?.email) {
       return NextResponse.json(
@@ -126,7 +125,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Trigger Pusher event
+    // Trigger Pusher event (if enabled)
     const pusherMessage: PusherMessage = {
       id: message.id,
       content: message.content,
@@ -162,5 +161,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-
