@@ -27,12 +27,12 @@ interface PlatformFormData {
   id?: string;
   name: string;
   slug: string;
-  logo: string;
-  websiteUrl: string;
-  commissionRate: number;
-  defaultCurrency: string;
-  color: string;
-  description: string;
+  logo?: string | null;
+  websiteUrl?: string | null;
+  commissionRate?: number | null;
+  defaultCurrency?: string | null;
+  color?: string | null;
+  description?: string | null;
   isActive: boolean;
 }
 
