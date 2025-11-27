@@ -17,6 +17,7 @@ export interface AIPlatform {
   id: string;
   name: string;
   color: string;
+  versions: string[];
 }
 
 export interface MockupCategory {
@@ -32,11 +33,11 @@ export interface MockupSource {
 }
 
 export const aiPlatforms: AIPlatform[] = [
-  { id: "midjourney", name: "Midjourney", color: "#000000" },
-  { id: "dalle", name: "DALL-E", color: "#10a37f" },
-  { id: "stable-diffusion", name: "Stable Diffusion", color: "#a855f7" },
-  { id: "leonardo", name: "Leonardo AI", color: "#7c3aed" },
-  { id: "canva", name: "Canva AI", color: "#00c4cc" },
+  { id: "midjourney", name: "Midjourney", color: "#000000", versions: ["v5", "v5.1", "v5.2", "v6"] },
+  { id: "dalle", name: "DALL-E", color: "#10a37f", versions: ["DALL-E 2", "DALL-E 3"] },
+  { id: "stable-diffusion", name: "Stable Diffusion", color: "#a855f7", versions: ["1.5", "2.0", "XL", "3.0"] },
+  { id: "leonardo", name: "Leonardo AI", color: "#7c3aed", versions: ["v1", "v2"] },
+  { id: "canva", name: "Canva AI", color: "#00c4cc", versions: ["Magic Design"] },
 ];
 
 export const mockupCategories: MockupCategory[] = [
