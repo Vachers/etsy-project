@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -29,7 +29,7 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -158,3 +158,29 @@ export default function LoginPage() {
   );
 }
 
+function LoginFormFallback() {
+  return (
+    <Card className="w-full shadow-lg">
+      <CardHeader className="space-y-1 text-center">
+        <div className="flex justify-center mb-4">
+          <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
+            <LogIn className="w-6 h-6 text-white" />
+          </div>
+        </div>
+        <CardTitle className="text-2xl font-bold">PROJEKTİF PRO</CardTitle>
+        <CardDescription>Yükleniyor...</CardDescription>
+      </CardHeader>
+      <CardContent className="flex justify-center py-8">
+        <Loader2 className="h-8 w-8 animate-spin text-primary-500" />
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginFormFallback />}>
+      <LoginForm />
+    </Suspense>
+  );
+}
