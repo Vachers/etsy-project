@@ -57,5 +57,5 @@ export const mockYoutubeChannels: never[] = [];
 
 // Helper functions now return undefined/empty - use database queries instead
 export const getMockProductById = (_id: string): Product | undefined => undefined;
-export const getMockYoutubeChannelById = (_id: string): undefined => undefined;
+export const getMockYoutubeChannelById = (_id: string): YouTubeChannel | undefined => undefined;
 export const getMockProductsByCategory = (_category: string): Product[] => [];
