@@ -6,8 +6,8 @@
 
 // Placeholder types and functions for build compatibility
 export const pusherServer = {
-  trigger: async () => {},
-  authorizeChannel: () => ({}),
+  trigger: async (..._args: unknown[]) => {},
+  authorizeChannel: (..._args: unknown[]) => ({}),
 };
 
 export const pusherClient = null;
