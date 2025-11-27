@@ -12,6 +12,11 @@ export interface SalesPlatformData {
   description: string;
 }
 
+// Empty arrays for removed features - can be populated later
+export const aiPlatforms: never[] = [];
+export const mockupCategories: never[] = [];
+export const mockupSources: never[] = [];
+
 export const salesPlatforms: SalesPlatformData[] = [
   {
     name: "Etsy",
