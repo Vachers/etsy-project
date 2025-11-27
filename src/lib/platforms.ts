@@ -12,10 +12,45 @@ export interface SalesPlatformData {
   description: string;
 }
 
-// Empty arrays for removed features - can be populated later
-export const aiPlatforms: never[] = [];
-export const mockupCategories: never[] = [];
-export const mockupSources: never[] = [];
+// AI Platform data for product detail pages
+export interface AIPlatform {
+  id: string;
+  name: string;
+  color: string;
+}
+
+export interface MockupCategory {
+  id: string;
+  name: string;
+}
+
+export interface MockupSource {
+  id: string;
+  name: string;
+  url: string;
+}
+
+export const aiPlatforms: AIPlatform[] = [
+  { id: "midjourney", name: "Midjourney", color: "#000000" },
+  { id: "dalle", name: "DALL-E", color: "#10a37f" },
+  { id: "stable-diffusion", name: "Stable Diffusion", color: "#a855f7" },
+  { id: "leonardo", name: "Leonardo AI", color: "#7c3aed" },
+  { id: "canva", name: "Canva AI", color: "#00c4cc" },
+];
+
+export const mockupCategories: MockupCategory[] = [
+  { id: "tshirt", name: "T-Shirt" },
+  { id: "mug", name: "Kupa" },
+  { id: "poster", name: "Poster" },
+  { id: "phone-case", name: "Telefon Kılıfı" },
+  { id: "pillow", name: "Yastık" },
+];
+
+export const mockupSources: MockupSource[] = [
+  { id: "placeit", name: "Placeit", url: "https://placeit.net" },
+  { id: "smartmockups", name: "Smartmockups", url: "https://smartmockups.com" },
+  { id: "mockupworld", name: "Mockup World", url: "https://mockupworld.co" },
+];
 
 export const salesPlatforms: SalesPlatformData[] = [
   {
