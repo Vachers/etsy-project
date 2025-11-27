@@ -28,7 +28,7 @@ const createProductSchema = z.object({
   downloadUrl: z.string().optional(),
   fileSize: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
   listings: z.array(listingSchema).optional(),
 });
 
