@@ -37,7 +37,14 @@ export async function GET(request: NextRequest) {
   try {
     const session = await auth();
     
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'Session check',data:{hasSession:!!session,userId:session?.user?.id,userEmail:session?.user?.email},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+    
     if (!session?.user?.id) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'No session - returning 401',data:{},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -48,6 +55,10 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "12");
 
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'Query params',data:{category,status,search,page,limit},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+
     const where: any = {
       userId: session.user.id,
     };
@@ -55,6 +66,9 @@ export async function GET(request: NextRequest) {
     if (category && category !== "all") {
       where.category = category.toUpperCase().replace(/-/g, "_");
     }
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'Where clause built',data:{where},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A-B'})}).catch(()=>{});
 
     if (status && status !== "all") {
       where.status = status.toUpperCase();
@@ -87,6 +101,15 @@ export async function GET(request: NextRequest) {
       }),
       prisma.digitalProduct.count({ where }),
     ]);
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'Query result',data:{productCount:products.length,total,productTitles:products.map(p=>p.title)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C'})}).catch(()=>{});
+    // #endregion
+    
+    // #region agent log - Check ALL products in DB (without userId filter)
+    const allProductsInDb = await prisma.digitalProduct.findMany({ select: { id: true, title: true, userId: true, category: true } });
+    fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'ALL products in DB (no filter)',data:{count:allProductsInDb.length,products:allProductsInDb},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'D'})}).catch(()=>{});
+    // #endregion
 
     // Calculate stats for each product
     const productsWithStats = products.map((product) => {
@@ -123,6 +146,9 @@ export async function GET(request: NextRequest) {
       stats: categoryStats,
     });
   } catch (error) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/4b1c5181-9584-4647-8d7c-eb1e3b22d263',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api/products/route.ts:GET',message:'ERROR in API',data:{error:String(error),stack:(error as Error)?.stack},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'E'})}).catch(()=>{});
+    // #endregion
     console.error("Error fetching products:", error);
     return NextResponse.json(
       { error: "Ürünler yüklenirken bir hata oluştu" },
