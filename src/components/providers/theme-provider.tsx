@@ -16,9 +16,10 @@ const ThemeContext = createContext<ThemeContextType>({
 
 interface ThemeProviderProps {
   children: ReactNode;
+  defaultTheme?: string;
 }
 
-export function ThemeProvider({ children }: ThemeProviderProps) {
+export function ThemeProvider({ children, defaultTheme: _defaultTheme = "system" }: ThemeProviderProps) {
   return (
     <ThemeContext.Provider value={{ theme: "light", setTheme: () => {}, resolvedTheme: "light" }}>
       {children}
