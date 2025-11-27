@@ -1,0 +1,442 @@
+---
+alwaysApply: true
+
+---
+## 🎯 Project Overview
+Enterprise-level digital project and sales tracking system with modern blue-emerald-red color palette, Notion-like data entry, advanced analytics, multi-platform integration, and comprehensive dashboard capabilities.
+
+## 🎨 MANDATORY Color System Usage
+**PRIMARY COLORS - ALWAYS USE THESE:**
+- Primary: #2563eb (Blue) - Main actions, buttons, links, focus states
+- Secondary: #059669 (Emerald) - Success states, revenue, growth indicators  
+- Accent: #dc2626 (Red) - Errors, destructive actions, urgent alerts
+- Success: #10b981 (Green) - Completed states, positive feedback
+- Warning: #f59e0b (Amber) - Warnings, pending states
+- Error: #ef4444 (Red) - Error messages, validation errors
+- Info: #3b82f6 (Light Blue) - Information, help text
+
+**DASHBOARD SEMANTIC COLORS:**
+- Revenue: #059669 (Emerald)
+- Expense: #dc2626 (Red)  
+- Profit: #7c3aed (Purple)
+- Pending: #f59e0b (Amber)
+
+**LAYOUT COLORS:**
+- Sidebar BG: #fafafa (gray-50)
+- Card BG: #ffffff (white)
+- Border: #e4e4e7 (gray-200)
+
+## 🛠️ Technology Stack
+- **Frontend:** Next.js 14 + TypeScript + Tailwind CSS + Shadcn/ui
+- **Rich Content:** Tiptap Editor + React Table + Advanced Forms
+- **Charts:** Recharts + D3.js + Chart.js + Custom Visualizations  
+- **Backend:** Next.js API + NextAuth.js + Prisma + NeonTech PostgreSQL
+- **Testing:** Vitest + Playwright + Storybook + Browser Testing
+- **Deployment:** Vercel + GitHub Actions
+
+## 🧪 Continuous Browser Testing - MANDATORY
+**EVERY CODE CHANGE MUST BE IMMEDIATELY TESTED IN BROWSER:**
+- **Auto-refresh:** Enable live reload during development
+- **Immediate Testing:** Test every component change in browser
+- **Responsive Testing:** Always test mobile, tablet, desktop views
+- **Color Verification:** Ensure color palette is correctly applied
+- **Interactive Testing:** Test all form inputs, buttons, navigation
+- **Performance Check:** Monitor loading times and animations
+
+### Browser Testing Commands:
+```bash
+# Development with immediate browser preview
+npm run dev
+
+# Test all components in Storybook
+npm run storybook
+
+# Run E2E tests with visual feedback
+npm run test:e2e
+
+# Performance testing
+npm run lighthouse
+```
+
+## 📋 Advanced Coding Standards
+
+### Color Usage Rules - STRICTLY ENFORCE
+```typescript
+// ✅ CORRECT - Use semantic color classes
+<button className="bg-primary-500 hover:bg-primary-600 text-white">
+  Primary Action
+</button>
+
+<div className="text-secondary-600 bg-secondary-50">
+  Revenue: $5,000
+</div>
+
+<Alert className="border-accent-200 bg-accent-50 text-accent-800">
+  Critical Warning
+</Alert>
+
+// ❌ WRONG - Never use arbitrary colors
+<button className="bg-blue-500"> // Don't use generic blue
+<div className="text-green-600">  // Don't use generic green
+```
+
+### Component Color Standards
+```typescript
+// Button color variants
+const buttonVariants = {
+  primary: "bg-primary-500 hover:bg-primary-600 text-white",
+  secondary: "bg-secondary-500 hover:bg-secondary-600 text-white", 
+  accent: "bg-accent-500 hover:bg-accent-600 text-white",
+  success: "bg-success-500 hover:bg-success-600 text-white",
+  warning: "bg-warning-500 hover:bg-warning-600 text-white",
+  error: "bg-error-500 hover:bg-error-600 text-white"
+};
+
+// Card variants
+const cardVariants = {
+  default: "bg-card-bg border-card-border",
+  success: "bg-success-50 border-success-200",
+  warning: "bg-warning-50 border-warning-200",
+  error: "bg-error-50 border-error-200"
+};
+```
+
+### Dashboard Widget Color Rules
+```typescript
+// Revenue components - ALWAYS use secondary (emerald)
+<RevenueCard className="bg-secondary-50 border-secondary-200">
+  <RevenueIcon className="text-secondary-600" />
+  <RevenueAmount className="text-secondary-700" />
+</RevenueCard>
+
+// Expense components - ALWAYS use accent (red)
+<ExpenseCard className="bg-accent-50 border-accent-200">
+  <ExpenseIcon className="text-accent-600" />
+  <ExpenseAmount className="text-accent-700" />
+</ExpenseCard>
+
+// Primary actions - ALWAYS use primary (blue)
+<ActionButton className="bg-primary-500 hover:bg-primary-600" />
+```
+
+### TypeScript Excellence with Color Types
+```typescript
+// Color type definitions
+type ColorVariant = 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error';
+type ColorShade = '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+
+interface ComponentProps {
+  variant: ColorVariant;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+// Dashboard-specific types
+type FinancialType = 'revenue' | 'expense' | 'profit' | 'pending';
+type StatusType = 'active' | 'inactive' | 'draft' | 'completed' | 'cancelled';
+type PriorityType = 'low' | 'medium' | 'high' | 'critical';
+```
+
+### Advanced Component Architecture
+```typescript
+// Compound component with consistent coloring
+const Dashboard = {
+  Root: ({ children, className }: DashboardRootProps) => (
+    <div className={cn("bg-gray-50 min-h-screen", className)}>
+      {children}
+    </div>
+  ),
+  Sidebar: ({ children }: SidebarProps) => (
+    <aside className="bg-sidebar border-r border-card-border w-64">
+      {children}
+    </aside>
+  ),
+  Content: ({ children }: ContentProps) => (
+    <main className="flex-1 bg-gray-50 p-6">
+      {children}
+    </main>
+  ),
+  Widget: ({ type, children, ...props }: WidgetProps) => (
+    <div className={cn(
+      "bg-card-bg border border-card-border rounded-lg p-6",
+      type === 'revenue' && "bg-secondary-50 border-secondary-200",
+      type === 'expense' && "bg-accent-50 border-accent-200"
+    )}>
+      {children}
+    </div>
+  )
+};
+```
+
+### Rich Content & Editors with Consistent Styling
+```typescript
+// Tiptap editor with brand colors
+const editor = useEditor({
+  extensions: [
+    StarterKit,
+    Image,
+    Link.configure({
+      HTMLAttributes: {
+        class: 'text-primary-600 hover:text-primary-700 underline'
+      }
+    }),
+    Highlight.configure({
+      HTMLAttributes: {
+        class: 'bg-warning-100 text-warning-800'
+      }
+    })
+  ],
+  editorProps: {
+    attributes: {
+      class: 'prose prose-sm max-w-none focus:outline-none',
+    },
+  }
+});
+```
+
+### Form Styling with Color System
+```typescript
+// Form components with consistent validation colors
+const FormField = ({ error, success, ...props }: FormFieldProps) => (
+  <div className="space-y-2">
+    <Label className="text-gray-700 font-medium">
+      {props.label}
+    </Label>
+    <Input 
+      className={cn(
+        "border-gray-200 focus:border-primary-500 focus:ring-primary-500",
+        error && "border-error-500 focus:border-error-500 focus:ring-error-500",
+        success && "border-success-500 focus:border-success-500 focus:ring-success-500"
+      )}
+      {...props}
+    />
+    {error && (
+      <p className="text-error-600 text-sm">{error}</p>
+    )}
+    {success && (
+      <p className="text-success-600 text-sm">{success}</p>
+    )}
+  </div>
+);
+```
+
+### Chart Color Palette
+```typescript
+// Chart colors using our palette
+const chartColors = {
+  primary: '#2563eb',
+  secondary: '#059669', 
+  accent: '#dc2626',
+  success: '#10b981',
+  warning: '#f59e0b',
+  error: '#ef4444',
+  info: '#3b82f6',
+  // Extended palette for multiple data series
+  extended: [
+    '#2563eb', // Primary blue
+    '#059669', // Secondary emerald
+    '#dc2626', // Accent red
+    '#7c3aed', // Purple
+    '#f59e0b', // Amber
+    '#10b981', // Green
+    '#3b82f6', // Light blue
+    '#8b5cf6'  // Violet
+  ]
+};
+
+// Recharts configuration
+const RevenueChart = () => (
+  <ResponsiveContainer width="100%" height={300}>
+    <LineChart data={data}>
+      <Line 
+        type="monotone" 
+        dataKey="revenue" 
+        stroke="#059669" 
+        strokeWidth={2}
+        dot={{ fill: '#059669', strokeWidth: 2, r: 4 }}
+      />
+      <Line 
+        type="monotone" 
+        dataKey="expenses" 
+        stroke="#dc2626" 
+        strokeWidth={2}
+        dot={{ fill: '#dc2626', strokeWidth: 2, r: 4 }}
+      />
+      <XAxis stroke="#6b7280" />
+      <YAxis stroke="#6b7280" />
+      <Tooltip 
+        contentStyle={{
+          backgroundColor: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: '8px'
+        }}
+      />
+    </LineChart>
+  </ResponsiveContainer>
+);
+```
+
+## 🎨 UI/UX Guidelines - Color Focused
+
+### Layout Color Rules
+```typescript
+// Sidebar always uses gray-50 background
+<Sidebar className="bg-sidebar border-r border-card-border" />
+
+// Cards always use white background with gray-200 border
+<Card className="bg-card-bg border border-card-border" />
+
+// Headers use white background with bottom border
+<Header className="bg-header-bg border-b border-header-border" />
+```
+
+### Interactive Element Colors
+```typescript
+// Primary actions - always blue
+<Button variant="primary" className="bg-primary-500 hover:bg-primary-600" />
+
+// Success actions - always green
+<Button variant="success" className="bg-success-500 hover:bg-success-600" />
+
+// Destructive actions - always red
+<Button variant="destructive" className="bg-accent-500 hover:bg-accent-600" />
+
+// Links - always primary color
+<Link className="text-primary-600 hover:text-primary-700 underline" />
+```
+
+### Status Indicator Colors
+```typescript
+const statusColors = {
+  active: 'bg-success-100 text-success-800 border-success-200',
+  inactive: 'bg-gray-100 text-gray-800 border-gray-200',
+  pending: 'bg-warning-100 text-warning-800 border-warning-200',
+  completed: 'bg-secondary-100 text-secondary-800 border-secondary-200',
+  cancelled: 'bg-error-100 text-error-800 border-error-200'
+};
+
+const StatusBadge = ({ status }: { status: keyof typeof statusColors }) => (
+  <span className={cn(
+    "px-2 py-1 rounded-full text-xs font-medium border",
+    statusColors[status]
+  )}>
+    {status}
+  </span>
+);
+```
+
+## 🔧 Development Workflow with Color Validation
+
+### Pre-commit Color Checks
+```bash
+# Lint for color usage
+npm run lint:colors
+
+# Check for hardcoded colors
+npm run check:hardcoded-colors
+
+# Validate color accessibility
+npm run test:a11y-colors
+```
+
+### Browser Testing Checklist - Color Focus
+- [ ] All primary actions use blue (#2563eb)
+- [ ] All revenue elements use emerald (#059669)  
+- [ ] All error states use red (#dc2626)
+- [ ] All success states use green (#10b981)
+- [ ] Color contrast ratios meet WCAG AA standards
+- [ ] Dark mode color variants work correctly
+- [ ] Interactive states have proper color feedback
+
+### Component Creation Rules
+1. **Always define color variant props**
+2. **Use semantic color classes, never arbitrary**
+3. **Test color accessibility immediately**
+4. **Verify colors in browser before committing**
+5. **Document color usage in Storybook**
+
+### Naming Conventions with Color Context
+```typescript
+// ✅ GOOD - Semantic names with color context
+const RevenueCard = () => <div className="bg-secondary-50">...</div>
+const ExpenseAlert = () => <div className="bg-accent-50">...</div>
+const PrimaryButton = () => <button className="bg-primary-500">...</button>
+
+// ❌ BAD - Generic names without color context
+const GreenCard = () => <div>...</div>
+const RedAlert = () => <div>...</div>
+```
+
+## 📊 Dashboard Color Implementation
+
+### Widget Color Mapping
+```typescript
+const widgetColorMap = {
+  revenue: {
+    bg: 'bg-secondary-50',
+    border: 'border-secondary-200',
+    text: 'text-secondary-700',
+    icon: 'text-secondary-600'
+  },
+  expense: {
+    bg: 'bg-accent-50', 
+    border: 'border-accent-200',
+    text: 'text-accent-700',
+    icon: 'text-accent-600'
+  },
+  profit: {
+    bg: 'bg-purple-50',
+    border: 'border-purple-200', 
+    text: 'text-purple-700',
+    icon: 'text-purple-600'
+  },
+  projects: {
+    bg: 'bg-primary-50',
+    border: 'border-primary-200',
+    text: 'text-primary-700',
+    icon: 'text-primary-600'  
+  }
+};
+```
+
+### Chart Integration
+```typescript
+// Always use brand colors in charts
+const chartConfig = {
+  colors: {
+    revenue: '#059669',
+    expense: '#dc2626', 
+    profit: '#7c3aed',
+    projects: '#2563eb'
+  },
+  gradients: {
+    revenue: 'from-secondary-500 to-secondary-600',
+    expense: 'from-accent-500 to-accent-600'
+  }
+};
+```
+
+## 💡 Mandatory Practices Summary
+
+1. **ALWAYS use the defined color palette - never arbitrary colors**
+2. **Test every color change immediately in browser**
+3. **Revenue = Emerald, Expense = Red, Primary Actions = Blue**
+4. **Maintain color consistency across all components**
+5. **Verify accessibility standards for all color combinations**
+6. **Use semantic color names in component props**
+7. **Document color usage in Storybook stories**
+8. **Test responsive design with consistent colors**
+9. **Validate color contrast ratios automatically**
+10. **Never commit without browser color verification**
+
+---
+
+### 🎯 Color-First Development Priorities:
+1. **Consistent Color Application** - All components use defined palette
+2. **Browser Color Testing** - Immediate visual feedback
+3. **Semantic Color Usage** - Revenue=Emerald, Actions=Blue, Errors=Red  
+4. **Accessibility Compliance** - Color contrast validation
+5. **Interactive Color Feedback** - Hover and focus states
+
+**REMEMBER: Every single color choice must use our defined palette. Test immediately in browser. No exceptions.**
+```
