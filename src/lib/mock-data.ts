@@ -3,6 +3,45 @@
 
 import type { Product } from "@/components/common/product-card";
 
+// YouTube types
+export interface YouTubeChannel {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  channelUrl: string;
+  handle?: string;
+  description?: string;
+  thumbnail?: string;
+  subscriberCount: number;
+  videoCount: number;
+  viewCount: number;
+  status: "active" | "inactive" | "suspended" | "pending";
+  niche?: string;
+  monetized: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  notes?: string;
+}
+
+export interface YouTubeVideo {
+  id: string;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnail?: string;
+  videoUrl?: string;
+  status: "draft" | "scheduled" | "published" | "private" | "unlisted";
+  prompt?: string;
+  tags: string[];
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
+  publishedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Empty arrays - all data comes from database
 export const mockPlatforms: never[] = [];
 export const mockEbooks: Product[] = [];
