@@ -102,7 +102,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Geçersiz veri", details: error.errors },
+        { error: "Geçersiz veri", details: error.issues },
         { status: 400 }
       );
     }
