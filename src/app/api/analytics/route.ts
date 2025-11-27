@@ -14,77 +14,87 @@ export async function GET() {
     const [
       productCount,
       platformCount,
-      salesCount,
+      salesRecordCount,
       totalRevenue,
-      recentSales,
-      platformStats,
+      recentSalesRecords,
+      platforms,
     ] = await Promise.all([
       prisma.digitalProduct.count(),
       prisma.salesPlatform.count(),
       prisma.salesRecord.count(),
       prisma.salesRecord.aggregate({
-        _sum: { amount: true },
+        _sum: { grossRevenue: true, netRevenue: true },
       }),
       prisma.salesRecord.findMany({
         take: 5,
         orderBy: { createdAt: "desc" },
         include: {
-          product: true,
-          platform: true,
+          listing: {
+            include: {
+              product: true,
+              platform: true,
+            },
+          },
         },
       }),
       prisma.salesPlatform.findMany({
+        where: { isActive: true },
         include: {
-          _count: {
-            select: { salesRecords: true },
-          },
-          salesRecords: {
-            select: { amount: true },
+          listings: {
+            include: {
+              salesRecords: true,
+            },
           },
         },
       }),
     ]);
 
     // Calculate platform stats
-    const platformStatsFormatted = platformStats.map((platform) => {
-      const totalPlatformRevenue = platform.salesRecords.reduce(
-        (sum, sale) => sum + (sale.amount?.toNumber() || 0),
-        0
-      );
+    const platformStats = platforms.map((platform) => {
+      let totalSales = 0;
+      let totalRevenue = 0;
+
+      platform.listings.forEach((listing) => {
+        listing.salesRecords.forEach((record) => {
+          totalSales += record.quantity;
+          totalRevenue += record.grossRevenue?.toNumber() || 0;
+        });
+      });
+
       return {
         id: platform.id,
         name: platform.name,
         slug: platform.slug,
         color: platform.color,
-        sales: platform._count.salesRecords,
-        revenue: totalPlatformRevenue,
+        sales: totalSales,
+        revenue: totalRevenue,
       };
     });
 
-    const totalRevenueValue = totalRevenue._sum.amount?.toNumber() || 0;
+    const totalRevenueValue = totalRevenue._sum.grossRevenue?.toNumber() || 0;
 
     // Format recent sales
-    const recentSalesFormatted = recentSales.map((sale) => ({
-      id: sale.id,
-      productName: sale.product?.title || "Ürün",
-      platformName: sale.platform?.name || "Platform",
-      amount: sale.amount?.toNumber() || 0,
-      currency: sale.currency,
-      date: sale.createdAt,
+    const recentSales = recentSalesRecords.map((record) => ({
+      id: record.id,
+      productName: record.listing?.product?.title || "Ürün",
+      platformName: record.listing?.platform?.name || "Platform",
+      amount: record.grossRevenue?.toNumber() || 0,
+      currency: record.currency,
+      date: record.createdAt,
     }));
 
     return NextResponse.json({
       stats: {
         totalRevenue: totalRevenueValue,
-        totalExpense: 0, // Can be calculated from expenses table if exists
-        netProfit: totalRevenueValue,
+        totalExpense: 0,
+        netProfit: totalRevenue._sum.netRevenue?.toNumber() || 0,
         activeProducts: productCount,
-        totalSales: salesCount,
+        totalSales: salesRecordCount,
         activePlatforms: platformCount,
       },
-      recentSales: recentSalesFormatted,
-      platformStats: platformStatsFormatted,
-      chartData: [], // Will be populated when there's actual data
+      recentSales,
+      platformStats,
+      chartData: [],
     });
   } catch (error) {
     console.error("Analytics error:", error);
